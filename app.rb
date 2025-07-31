@@ -347,7 +347,7 @@ class RubyMigratorWebApp
                   </div>
                   
                   <div class="examples">
-                      <h3>Example Ruby 2 Code (Click to load)</h3>
+                      <h3>Ruby 2 Code Examples (Click to load)</h3>
                       <div class="example-code" onclick="loadExample1()">
 class LegacyClass
   def check_number(num)
@@ -356,6 +356,7 @@ class LegacyClass
     elsif num.is_a?(Bignum)
       return FALSE
     end
+    return NIL
   end
 end
                       </div>
@@ -364,7 +365,41 @@ def process_data(input)
   input.taint
   cleaned = sanitize(input)
   cleaned.untaint
+  input.trust
   return cleaned
+end
+
+def parse_url(url)
+  if url =~ /https?:\/\/(\w+):(\d+)/
+    host = $1
+    port = $2.to_i
+    return { host: host, port: port }
+  end
+end
+                      </div>
+                      <div class="example-code" onclick="loadFixedExample()">
+# Ruby 3 Compatible (Fixed Version)
+class ModernClass
+  def check_number(num)
+    if num.is_a?(Integer)
+      return true
+    else
+      return false
+    end
+  end
+end
+
+def process_data(input)
+  cleaned = sanitize(input)
+  return cleaned
+end
+
+def parse_url(url)
+  if match = url.match(/https?:\/\/(?<host>\w+):(?<port>\d+)/)
+    host = match[:host]
+    port = match[:port].to_i
+    return { host: host, port: port }
+  end
 end
                       </div>
                   </div>
@@ -447,6 +482,32 @@ def parse_url(url)
   if url =~ /https?:\\/\\/(\\w+):(\\d+)/
     host = $1
     port = $2.to_i
+    return { host: host, port: port }
+  end
+end`;
+              }
+              
+              function loadFixedExample() {
+                  document.getElementById('codeInput').value = `# Ruby 3 Compatible (Fixed Version)
+class ModernClass
+  def check_number(num)
+    if num.is_a?(Integer)
+      return true
+    else
+      return false
+    end
+  end
+end
+
+def process_data(input)
+  cleaned = sanitize(input)
+  return cleaned
+end
+
+def parse_url(url)
+  if match = url.match(/https?:\\/\\/(?<host>\\w+):(?<port>\\d+)/)
+    host = match[:host]
+    port = match[:port].to_i
     return { host: host, port: port }
   end
 end`;
