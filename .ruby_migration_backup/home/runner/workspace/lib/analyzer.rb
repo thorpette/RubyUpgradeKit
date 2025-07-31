@@ -163,7 +163,7 @@ class Analyzer
           type: 'hash_syntax',
           severity: 'warning',
           message: 'Consider using new hash syntax for symbol keys',
-          suggestion: 'Replace :key => value with key: value',
+          suggestion: 'Replace key: value with key: value',
           code: line_content.strip
         }
       end
