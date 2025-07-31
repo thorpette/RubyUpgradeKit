@@ -1,0 +1,37 @@
+modules = ["ruby", "ruby-3.3"]
+
+[nix]
+channel = "stable-25_05"
+packages = ["ruby"]
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Ruby Migrator"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "ruby_migrator_test"
+
+[[workflows.workflow]]
+name = "Ruby Migrator"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "ruby ruby_migrator.rb --help"
+
+[[workflows.workflow]]
+name = "ruby_migrator_test"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "gem install colorize parser && ruby ruby_migrator.rb --help"

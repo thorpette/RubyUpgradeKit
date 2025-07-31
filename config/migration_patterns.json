@@ -1,0 +1,128 @@
+{
+  "version": "1.0",
+  "description": "Ruby 2 to Ruby 3 migration patterns and rules",
+  "patterns": {
+    "removed_methods": [
+      {
+        "method": "taint",
+        "severity": "error",
+        "message": "taint method removed in Ruby 3.0",
+        "suggestion": "Remove all taint/untaint usage"
+      },
+      {
+        "method": "untaint", 
+        "severity": "error",
+        "message": "untaint method removed in Ruby 3.0",
+        "suggestion": "Remove all taint/untaint usage"
+      },
+      {
+        "method": "trust",
+        "severity": "error", 
+        "message": "trust method removed in Ruby 3.0",
+        "suggestion": "Remove all trust/untrust usage"
+      },
+      {
+        "method": "untrust",
+        "severity": "error",
+        "message": "untrust method removed in Ruby 3.0", 
+        "suggestion": "Remove all trust/untrust usage"
+      }
+    ],
+    "removed_constants": [
+      {
+        "constant": "Fixnum",
+        "severity": "error",
+        "message": "Fixnum class unified with Integer in Ruby 3.0",
+        "suggestion": "Replace Fixnum with Integer"
+      },
+      {
+        "constant": "Bignum", 
+        "severity": "error",
+        "message": "Bignum class unified with Integer in Ruby 3.0",
+        "suggestion": "Replace Bignum with Integer"
+      },
+      {
+        "constant": "NIL",
+        "severity": "error",
+        "message": "NIL constant removed",
+        "suggestion": "Use nil instead"
+      },
+      {
+        "constant": "TRUE",
+        "severity": "error", 
+        "message": "TRUE constant removed",
+        "suggestion": "Use true instead"
+      },
+      {
+        "constant": "FALSE",
+        "severity": "error",
+        "message": "FALSE constant removed", 
+        "suggestion": "Use false instead"
+      }
+    ],
+    "behavior_changes": [
+      {
+        "pattern": "Hash#each",
+        "severity": "warning",
+        "message": "Hash iteration order is now guaranteed to be insertion order",
+        "suggestion": "Review code that depends on hash iteration order"
+      },
+      {
+        "pattern": "Proc#call",
+        "severity": "warning", 
+        "message": "Proc argument handling is stricter in Ruby 3.0",
+        "suggestion": "Review proc calls with wrong number of arguments"
+      },
+      {
+        "pattern": "lambda",
+        "severity": "info",
+        "message": "Lambda argument checking is stricter in Ruby 3.0", 
+        "suggestion": "Ensure lambda calls have correct number of arguments"
+      }
+    ],
+    "syntax_changes": [
+      {
+        "pattern": "keyword_arguments",
+        "severity": "warning",
+        "message": "Positional and keyword arguments are separated in Ruby 3.0",
+        "suggestion": "Update method definitions and calls to use proper keyword arguments"
+      },
+      {
+        "pattern": "numbered_parameters",
+        "severity": "info",
+        "message": "Numbered parameters introduced in Ruby 2.7, fully supported in 3.0",
+        "suggestion": "Consider using numbered parameters for simple blocks"
+      }
+    ],
+    "deprecated_features": [
+      {
+        "feature": "flip_flop_operator",
+        "severity": "warning", 
+        "message": "Flip-flop operators are deprecated",
+        "suggestion": "Replace flip-flop operators with explicit state variables"
+      },
+      {
+        "feature": "backquote_without_shell",
+        "severity": "info",
+        "message": "Backquote without shell access may behave differently",
+        "suggestion": "Review backquote usage in restricted environments"
+      }
+    ]
+  },
+  "auto_fixable": [
+    "Fixnum",
+    "Bignum", 
+    "NIL",
+    "TRUE", 
+    "FALSE",
+    "hash_syntax",
+    "string_concatenation"
+  ],
+  "manual_review_required": [
+    "keyword_arguments",
+    "proc_behavior",
+    "lambda_behavior", 
+    "pattern_matching",
+    "fiber_behavior"
+  ]
+}

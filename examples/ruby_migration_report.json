@@ -1,0 +1,442 @@
+{
+  "project_path": "examples",
+  "generated_at": "2025-07-31T08:48:16+00:00",
+  "total_issues": 43,
+  "issues_by_severity": {
+    "error": 20,
+    "warning": 13,
+    "info": 10
+  },
+  "issues": [
+    {
+      "file": "/home/runner/workspace/examples/.ruby_migration_backup/home/runner/workspace/another_example.rb",
+      "line": 15,
+      "column": 1,
+      "type": "deprecated_constant",
+      "severity": "error",
+      "message": "Fixnum class has been removed in Ruby 3",
+      "suggestion": "Replace Fixnum with Integer",
+      "code": "if num.is_a?(Fixnum)"
+    },
+    {
+      "file": "/home/runner/workspace/examples/.ruby_migration_backup/home/runner/workspace/another_example.rb",
+      "line": 17,
+      "column": 1,
+      "type": "deprecated_constant",
+      "severity": "error",
+      "message": "Bignum class has been removed in Ruby 3",
+      "suggestion": "Replace Bignum with Integer",
+      "code": "elsif num.is_a?(Bignum)"
+    },
+    {
+      "file": "/home/runner/workspace/examples/.ruby_migration_backup/home/runner/workspace/another_example.rb",
+      "line": 7,
+      "column": 6,
+      "type": "hash_syntax",
+      "severity": "warning",
+      "message": "Consider using new hash syntax for symbol keys",
+      "suggestion": "Replace :key => value with key: value",
+      "code": ":database => \"production\","
+    },
+    {
+      "file": "/home/runner/workspace/examples/.ruby_migration_backup/home/runner/workspace/another_example.rb",
+      "line": 8,
+      "column": 6,
+      "type": "hash_syntax",
+      "severity": "warning",
+      "message": "Consider using new hash syntax for symbol keys",
+      "suggestion": "Replace :key => value with key: value",
+      "code": ":timeout => 30,"
+    },
+    {
+      "file": "/home/runner/workspace/examples/.ruby_migration_backup/home/runner/workspace/another_example.rb",
+      "line": 9,
+      "column": 6,
+      "type": "hash_syntax",
+      "severity": "warning",
+      "message": "Consider using new hash syntax for symbol keys",
+      "suggestion": "Replace :key => value with key: value",
+      "code": ":retry_count => 3"
+    },
+    {
+      "file": "/home/runner/workspace/examples/.ruby_migration_backup/home/runner/workspace/another_example.rb",
+      "line": 26,
+      "column": 4,
+      "type": "deprecated_method",
+      "severity": "error",
+      "message": "taint method has been removed in Ruby 3",
+      "suggestion": "Remove taint/untaint calls",
+      "code": "user_input.taint"
+    },
+    {
+      "file": "/home/runner/workspace/examples/.ruby_migration_backup/home/runner/workspace/another_example.rb",
+      "line": 28,
+      "column": 4,
+      "type": "deprecated_method",
+      "severity": "error",
+      "message": "untaint method has been removed in Ruby 3",
+      "suggestion": "Remove taint/untaint calls",
+      "code": "cleaned.untaint"
+    },
+    {
+      "file": "/home/runner/workspace/examples/.ruby_migration_backup/home/runner/workspace/another_example.rb",
+      "line": 40,
+      "column": 13,
+      "type": "proc_usage",
+      "severity": "info",
+      "message": "Proc behavior changed in Ruby 3",
+      "suggestion": "Review proc usage for potential breaking changes",
+      "code": "mapper = proc { |item| item.upcase }"
+    },
+    {
+      "file": "/home/runner/workspace/examples/.ruby_migration_backup/home/runner/workspace/legacy_code.rb",
+      "line": 7,
+      "column": 1,
+      "type": "hash_construction",
+      "severity": "info",
+      "message": "Hash construction behavior may differ",
+      "suggestion": "Test hash construction with Ruby 3",
+      "code": "@data = Hash[\"key1\", \"value1\", \"key2\", \"value2\"]"
+    },
+    {
+      "file": "/home/runner/workspace/examples/.ruby_migration_backup/home/runner/workspace/legacy_code.rb",
+      "line": 14,
+      "column": 1,
+      "type": "deprecated_constant",
+      "severity": "error",
+      "message": "Fixnum class has been removed in Ruby 3",
+      "suggestion": "Replace Fixnum with Integer",
+      "code": "when Fixnum"
+    },
+    {
+      "file": "/home/runner/workspace/examples/.ruby_migration_backup/home/runner/workspace/legacy_code.rb",
+      "line": 16,
+      "column": 1,
+      "type": "deprecated_constant",
+      "severity": "error",
+      "message": "Bignum class has been removed in Ruby 3",
+      "suggestion": "Replace Bignum with Integer",
+      "code": "when Bignum"
+    },
+    {
+      "file": "/home/runner/workspace/examples/.ruby_migration_backup/home/runner/workspace/legacy_code.rb",
+      "line": 52,
+      "column": 1,
+      "type": "global_variable",
+      "severity": "warning",
+      "message": "Global match variables behavior changed",
+      "suggestion": "Use local variables or named captures instead",
+      "code": "host = $1"
+    },
+    {
+      "file": "/home/runner/workspace/examples/.ruby_migration_backup/home/runner/workspace/legacy_code.rb",
+      "line": 53,
+      "column": 1,
+      "type": "global_variable",
+      "severity": "warning",
+      "message": "Global match variables behavior changed",
+      "suggestion": "Use local variables or named captures instead",
+      "code": "port = $2.to_i"
+    },
+    {
+      "file": "/home/runner/workspace/examples/.ruby_migration_backup/home/runner/workspace/legacy_code.rb",
+      "line": 73,
+      "column": 1,
+      "type": "lambda_syntax",
+      "severity": "info",
+      "message": "Lambda behavior is stricter in Ruby 3",
+      "suggestion": "Review lambda argument handling",
+      "code": "my_lambda = lambda { |x, y| x * y }"
+    },
+    {
+      "file": "/home/runner/workspace/examples/.ruby_migration_backup/home/runner/workspace/legacy_code.rb",
+      "line": 25,
+      "column": 4,
+      "type": "deprecated_method",
+      "severity": "error",
+      "message": "taint method has been removed in Ruby 3",
+      "suggestion": "Remove taint/untaint calls",
+      "code": "input.taint"
+    },
+    {
+      "file": "/home/runner/workspace/examples/.ruby_migration_backup/home/runner/workspace/legacy_code.rb",
+      "line": 27,
+      "column": 4,
+      "type": "deprecated_method",
+      "severity": "error",
+      "message": "untaint method has been removed in Ruby 3",
+      "suggestion": "Remove taint/untaint calls",
+      "code": "input.untaint"
+    },
+    {
+      "file": "/home/runner/workspace/examples/.ruby_migration_backup/home/runner/workspace/legacy_code.rb",
+      "line": 32,
+      "column": 4,
+      "type": "deprecated_method",
+      "severity": "error",
+      "message": "trust method has been removed in Ruby 3",
+      "suggestion": "Remove trust/untrust calls",
+      "code": "input.trust"
+    },
+    {
+      "file": "/home/runner/workspace/examples/.ruby_migration_backup/home/runner/workspace/legacy_code.rb",
+      "line": 34,
+      "column": 4,
+      "type": "deprecated_method",
+      "severity": "error",
+      "message": "untrust method has been removed in Ruby 3",
+      "suggestion": "Remove trust/untrust calls",
+      "code": "input.untrust if input.respond_to?(:untrust)"
+    },
+    {
+      "file": "/home/runner/workspace/examples/.ruby_migration_backup/home/runner/workspace/legacy_code.rb",
+      "line": 40,
+      "column": 6,
+      "type": "hash_syntax",
+      "severity": "warning",
+      "message": "Consider using new hash syntax for symbol keys",
+      "suggestion": "Replace :key => value with key: value",
+      "code": ":host => \"localhost\","
+    },
+    {
+      "file": "/home/runner/workspace/examples/.ruby_migration_backup/home/runner/workspace/legacy_code.rb",
+      "line": 41,
+      "column": 6,
+      "type": "hash_syntax",
+      "severity": "warning",
+      "message": "Consider using new hash syntax for symbol keys",
+      "suggestion": "Replace :key => value with key: value",
+      "code": ":port => 3000,"
+    },
+    {
+      "file": "/home/runner/workspace/examples/.ruby_migration_backup/home/runner/workspace/legacy_code.rb",
+      "line": 42,
+      "column": 6,
+      "type": "hash_syntax",
+      "severity": "warning",
+      "message": "Consider using new hash syntax for symbol keys",
+      "suggestion": "Replace :key => value with key: value",
+      "code": ":ssl => TRUE,"
+    },
+    {
+      "file": "/home/runner/workspace/examples/.ruby_migration_backup/home/runner/workspace/legacy_code.rb",
+      "line": 43,
+      "column": 6,
+      "type": "hash_syntax",
+      "severity": "warning",
+      "message": "Consider using new hash syntax for symbol keys",
+      "suggestion": "Replace :key => value with key: value",
+      "code": ":debug => FALSE"
+    },
+    {
+      "file": "/home/runner/workspace/examples/.ruby_migration_backup/home/runner/workspace/legacy_code.rb",
+      "line": 66,
+      "column": 14,
+      "type": "proc_usage",
+      "severity": "info",
+      "message": "Proc behavior changed in Ruby 3",
+      "suggestion": "Review proc usage for potential breaking changes",
+      "code": "my_proc = proc { |x, y| x + y }"
+    },
+    {
+      "file": "/home/runner/workspace/examples/.ruby_migration_backup/home/runner/workspace/legacy_code.rb",
+      "line": 90,
+      "column": 4,
+      "type": "deprecated_method",
+      "severity": "warning",
+      "message": "chomp! behavior with separator changed",
+      "suggestion": "Review chomp! usage with separators",
+      "code": "data.chomp!"
+    },
+    {
+      "file": "/home/runner/workspace/examples/.ruby_migration_backup/home/runner/workspace/legacy_code.rb",
+      "line": 91,
+      "column": 4,
+      "type": "deprecated_method",
+      "severity": "info",
+      "message": "gsub! return value handling may need review",
+      "suggestion": "Check gsub! return value handling",
+      "code": "data.gsub!(/\\s+/, ' ')"
+    },
+    {
+      "file": "/home/runner/workspace/examples/another_example.rb",
+      "line": 15,
+      "column": 1,
+      "type": "deprecated_constant",
+      "severity": "error",
+      "message": "Fixnum class has been removed in Ruby 3",
+      "suggestion": "Replace Fixnum with Integer",
+      "code": "if num.is_a?(Fixnum)"
+    },
+    {
+      "file": "/home/runner/workspace/examples/another_example.rb",
+      "line": 17,
+      "column": 1,
+      "type": "deprecated_constant",
+      "severity": "error",
+      "message": "Bignum class has been removed in Ruby 3",
+      "suggestion": "Replace Bignum with Integer",
+      "code": "elsif num.is_a?(Bignum)"
+    },
+    {
+      "file": "/home/runner/workspace/examples/another_example.rb",
+      "line": 26,
+      "column": 4,
+      "type": "deprecated_method",
+      "severity": "error",
+      "message": "taint method has been removed in Ruby 3",
+      "suggestion": "Remove taint/untaint calls",
+      "code": "user_input.taint"
+    },
+    {
+      "file": "/home/runner/workspace/examples/another_example.rb",
+      "line": 28,
+      "column": 4,
+      "type": "deprecated_method",
+      "severity": "error",
+      "message": "untaint method has been removed in Ruby 3",
+      "suggestion": "Remove taint/untaint calls",
+      "code": "cleaned.untaint"
+    },
+    {
+      "file": "/home/runner/workspace/examples/another_example.rb",
+      "line": 40,
+      "column": 13,
+      "type": "proc_usage",
+      "severity": "info",
+      "message": "Proc behavior changed in Ruby 3",
+      "suggestion": "Review proc usage for potential breaking changes",
+      "code": "mapper = proc { |item| item.upcase }"
+    },
+    {
+      "file": "/home/runner/workspace/examples/legacy_code.rb",
+      "line": 7,
+      "column": 1,
+      "type": "hash_construction",
+      "severity": "info",
+      "message": "Hash construction behavior may differ",
+      "suggestion": "Test hash construction with Ruby 3",
+      "code": "@data = Hash[\"key1\", \"value1\", \"key2\", \"value2\"]"
+    },
+    {
+      "file": "/home/runner/workspace/examples/legacy_code.rb",
+      "line": 14,
+      "column": 1,
+      "type": "deprecated_constant",
+      "severity": "error",
+      "message": "Fixnum class has been removed in Ruby 3",
+      "suggestion": "Replace Fixnum with Integer",
+      "code": "when Fixnum"
+    },
+    {
+      "file": "/home/runner/workspace/examples/legacy_code.rb",
+      "line": 16,
+      "column": 1,
+      "type": "deprecated_constant",
+      "severity": "error",
+      "message": "Bignum class has been removed in Ruby 3",
+      "suggestion": "Replace Bignum with Integer",
+      "code": "when Bignum"
+    },
+    {
+      "file": "/home/runner/workspace/examples/legacy_code.rb",
+      "line": 52,
+      "column": 1,
+      "type": "global_variable",
+      "severity": "warning",
+      "message": "Global match variables behavior changed",
+      "suggestion": "Use local variables or named captures instead",
+      "code": "host = $1"
+    },
+    {
+      "file": "/home/runner/workspace/examples/legacy_code.rb",
+      "line": 53,
+      "column": 1,
+      "type": "global_variable",
+      "severity": "warning",
+      "message": "Global match variables behavior changed",
+      "suggestion": "Use local variables or named captures instead",
+      "code": "port = $2.to_i"
+    },
+    {
+      "file": "/home/runner/workspace/examples/legacy_code.rb",
+      "line": 73,
+      "column": 1,
+      "type": "lambda_syntax",
+      "severity": "info",
+      "message": "Lambda behavior is stricter in Ruby 3",
+      "suggestion": "Review lambda argument handling",
+      "code": "my_lambda = lambda { |x, y| x * y }"
+    },
+    {
+      "file": "/home/runner/workspace/examples/legacy_code.rb",
+      "line": 25,
+      "column": 4,
+      "type": "deprecated_method",
+      "severity": "error",
+      "message": "taint method has been removed in Ruby 3",
+      "suggestion": "Remove taint/untaint calls",
+      "code": "input.taint"
+    },
+    {
+      "file": "/home/runner/workspace/examples/legacy_code.rb",
+      "line": 27,
+      "column": 4,
+      "type": "deprecated_method",
+      "severity": "error",
+      "message": "untaint method has been removed in Ruby 3",
+      "suggestion": "Remove taint/untaint calls",
+      "code": "input.untaint"
+    },
+    {
+      "file": "/home/runner/workspace/examples/legacy_code.rb",
+      "line": 32,
+      "column": 4,
+      "type": "deprecated_method",
+      "severity": "error",
+      "message": "trust method has been removed in Ruby 3",
+      "suggestion": "Remove trust/untrust calls",
+      "code": "input.trust"
+    },
+    {
+      "file": "/home/runner/workspace/examples/legacy_code.rb",
+      "line": 34,
+      "column": 4,
+      "type": "deprecated_method",
+      "severity": "error",
+      "message": "untrust method has been removed in Ruby 3",
+      "suggestion": "Remove trust/untrust calls",
+      "code": "input.untrust if input.respond_to?(:untrust)"
+    },
+    {
+      "file": "/home/runner/workspace/examples/legacy_code.rb",
+      "line": 66,
+      "column": 14,
+      "type": "proc_usage",
+      "severity": "info",
+      "message": "Proc behavior changed in Ruby 3",
+      "suggestion": "Review proc usage for potential breaking changes",
+      "code": "my_proc = proc { |x, y| x + y }"
+    },
+    {
+      "file": "/home/runner/workspace/examples/legacy_code.rb",
+      "line": 90,
+      "column": 4,
+      "type": "deprecated_method",
+      "severity": "warning",
+      "message": "chomp! behavior with separator changed",
+      "suggestion": "Review chomp! usage with separators",
+      "code": "data.chomp!"
+    },
+    {
+      "file": "/home/runner/workspace/examples/legacy_code.rb",
+      "line": 91,
+      "column": 4,
+      "type": "deprecated_method",
+      "severity": "info",
+      "message": "gsub! return value handling may need review",
+      "suggestion": "Check gsub! return value handling",
+      "code": "data.gsub!(/\\s+/, ' ')"
+    }
+  ]
+}
