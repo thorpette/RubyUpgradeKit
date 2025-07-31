@@ -45,10 +45,14 @@ class FileScanner
     # Check shebang for Ruby files
     if File.readable?(path)
       begin
-        first_line = File.open(path, &:readline).strip
-        return true if first_line.match?(/^#!.*ruby/)
-      rescue EOFError, IOError
-        # File is empty or unreadable
+        File.open(path, 'rb') do |file|
+          first_line = file.readline.force_encoding('UTF-8')
+          if first_line.valid_encoding?
+            return true if first_line.strip.match?(/^#!.*ruby/)
+          end
+        end
+      rescue EOFError, IOError, ArgumentError
+        # File is empty, unreadable, or has encoding issues
       end
     end
     
