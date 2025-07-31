@@ -20,6 +20,10 @@ args = "Ruby Migrator"
 task = "workflow.run"
 args = "ruby_migrator_test"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Ruby Migrator Web App"
+
 [[workflows.workflow]]
 name = "Ruby Migrator"
 author = "agent"
@@ -35,3 +39,16 @@ author = "agent"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "gem install colorize parser && ruby ruby_migrator.rb --help"
+
+[[workflows.workflow]]
+name = "Ruby Migrator Web App"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "bundle exec ruby app.rb"
+waitForPort = 5000
+
+[[ports]]
+localPort = 5000
+externalPort = 80
