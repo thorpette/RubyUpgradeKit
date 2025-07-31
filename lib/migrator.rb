@@ -31,6 +31,7 @@ class Migrator
         all_issues.concat(issues) if issues.any?
       rescue => e
         puts "\nError analyzing #{file}: #{e.message}".colorize(:red)
+        puts "  File encoding issue or syntax error - skipping" if @verbose
         next
       end
     end
@@ -73,6 +74,7 @@ class Migrator
         end
       rescue => e
         puts "\nError processing #{file}: #{e.message}".colorize(:red)
+        puts "  File encoding issue or syntax error - skipping" if @verbose
         next
       end
     end

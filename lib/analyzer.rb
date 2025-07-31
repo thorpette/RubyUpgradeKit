@@ -8,7 +8,7 @@ class Analyzer
   end
 
   def analyze_file(file_path)
-    content = File.read(file_path)
+    content = File.read(file_path, encoding: 'UTF-8', invalid: :replace, undef: :replace)
     issues = []
     
     # Text-based pattern matching for quick checks

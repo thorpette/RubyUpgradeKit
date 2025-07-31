@@ -6,7 +6,7 @@ class Transformer
   end
 
   def transform_file(file_path, issues)
-    content = File.read(file_path)
+    content = File.read(file_path, encoding: 'UTF-8', invalid: :replace, undef: :replace)
     original_content = content.dup
     modified = false
     

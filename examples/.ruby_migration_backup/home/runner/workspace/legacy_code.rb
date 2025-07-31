@@ -37,10 +37,10 @@ class LegacyApplication
   # Sintaxis de hash antigua
   def old_hash_syntax
     config = {
-      :host => "localhost",
-      :port => 3000,
-      :ssl => TRUE,
-      :debug => FALSE
+      host: "localhost",
+      port: 3000,
+      ssl: TRUE,
+      debug: FALSE
     }
     
     return config

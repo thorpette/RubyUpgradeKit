@@ -4,9 +4,9 @@ class DatabaseHelper
   def initialize
     # Hash con sintaxis antigua
     @config = {
-      :database => "production",
-      :timeout => 30,
-      :retry_count => 3
+      database: "production",
+      timeout: 30,
+      retry_count: 3
     }
   end
 
