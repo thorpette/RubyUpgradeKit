@@ -3,19 +3,18 @@ require 'find'
 class FileScanner
   def initialize(base_path)
     @base_path = File.expand_path(base_path)
-    @excluded_dirs = %w[.git node_modules vendor tmp log .bundle .cache .local .ruby_migration_backup]
+    @excluded_dirs = %w[.git node_modules vendor tmp log .bundle]
     @excluded_files = %w[Gemfile.lock]
-    @excluded_paths = %w[.cache .local share gem specs]
   end
 
   def scan_ruby_files
     ruby_files = []
     
     Find.find(@base_path) do |path|
-      # Skip excluded directories and paths
+      # Skip excluded directories
       if File.directory?(path)
         dir_name = File.basename(path)
-        if @excluded_dirs.include?(dir_name) || path.include?('/.cache/') || path.include?('/.local/')
+        if @excluded_dirs.include?(dir_name)
           Find.prune
           next
         end
