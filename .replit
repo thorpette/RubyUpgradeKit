@@ -2,7 +2,7 @@ modules = ["ruby", "ruby-3.3"]
 
 [nix]
 channel = "stable-25_05"
-packages = ["ruby"]
+packages = ["ruby", "wkhtmltopdf"]
 
 [workflows]
 runButton = "Project"

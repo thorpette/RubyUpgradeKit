@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Migración Ruby 2 a Ruby 3</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #d32f2f;
+            border-bottom: 3px solid #d32f2f;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #1976d2;
+            border-left: 4px solid #1976d2;
+            padding-left: 15px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #388e3c;
+            margin-top: 25px;
+        }
+        .code-block {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        .ruby2 {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+        }
+        .ruby3 {
+            background: #e8f5e8;
+            border-left: 4px solid #4caf50;
+        }
+        .warning {
+            background: #fff3e0;
+            border: 1px solid #ff9800;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .error {
+            background: #ffebee;
+            border: 1px solid #f44336;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .info {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background: #f5f5f5;
+            font-weight: bold;
+        }
+        .severity-error {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+        .severity-warning {
+            color: #f57c00;
+            font-weight: bold;
+        }
+        .severity-info {
+            color: #1976d2;
+            font-weight: bold;
+        }
+        @media print {
+            body { font-size: 12px; }
+            .code-block { font-size: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <h1>📚 Guía Completa de Migración Ruby 2 a Ruby 3</h1>
+    
+    <div class="info">
+        <strong>Documento generado:</strong> 31 de Julio de 2025<br>
+        <strong>Versión:</strong> 1.0.0<br>
+        <strong>Herramienta:</strong> Ruby Migrator Tool
+    </div>
+
+    <h2>🎯 Resumen Ejecutivo</h2>
+    <p>Ruby 3 introduce cambios significativos que mejoran el rendimiento, la seguridad y la consistencia del lenguaje. Esta guía documenta todos los cambios críticos, advertencias y mejores prácticas para migrar código de Ruby 2.x a Ruby 3.x.</p>
+
+    <h2>🚨 Cambios Críticos (Rompen Compatibilidad)</h2>
+
+    <h3>1. Clases Numéricas Unificadas</h3>
+    <div class="error">
+        <strong>ELIMININADO:</strong> Las clases Fixnum y Bignum han sido removidas completamente.
+    </div>
+    
+    <div class="code-block ruby2">
+        <strong>Ruby 2 (Problemático):</strong><br>
+        if num.is_a?(Fixnum)<br>
+        &nbsp;&nbsp;puts "Es un número pequeño"<br>
+        elsif num.is_a?(Bignum)<br>
+        &nbsp;&nbsp;puts "Es un número grande"<br>
+        end
+    </div>
+    
+    <div class="code-block ruby3">
+        <strong>Ruby 3 (Correcto):</strong><br>
+        if num.is_a?(Integer)<br>
+        &nbsp;&nbsp;puts "Es un número entero"<br>
+        end
+    </div>
+
+    <h3>2. Constantes Booleanas y Nil</h3>
+    <div class="error">
+        <strong>ELIMINADO:</strong> Las constantes TRUE, FALSE y NIL han sido removidas.
+    </div>
+    
+    <div class="code-block ruby2">
+        <strong>Ruby 2 (Problemático):</strong><br>
+        def check_status<br>
+        &nbsp;&nbsp;return TRUE if valid?<br>
+        &nbsp;&nbsp;return FALSE if invalid?<br>
+        &nbsp;&nbsp;return NIL<br>
+        end
+    </div>
+    
+    <div class="code-block ruby3">
+        <strong>Ruby 3 (Correcto):</strong><br>
+        def check_status<br>
+        &nbsp;&nbsp;return true if valid?<br>
+        &nbsp;&nbsp;return false if invalid?<br>
+        &nbsp;&nbsp;return nil<br>
+        end
+    </div>
+
+    <h3>3. Métodos de Seguridad Obsoletos</h3>
+    <div class="error">
+        <strong>ELIMINADO:</strong> Los métodos taint, untaint, trust y untrust han sido completamente removidos.
+    </div>
+    
+    <div class="code-block ruby2">
+        <strong>Ruby 2 (Problemático):</strong><br>
+        def process_input(data)<br>
+        &nbsp;&nbsp;data.taint<br>
+        &nbsp;&nbsp;clean_data = sanitize(data)<br>
+        &nbsp;&nbsp;clean_data.untaint<br>
+        &nbsp;&nbsp;data.trust<br>
+        &nbsp;&nbsp;return clean_data<br>
+        end
+    </div>
+    
+    <div class="code-block ruby3">
+        <strong>Ruby 3 (Correcto):</strong><br>
+        def process_input(data)<br>
+        &nbsp;&nbsp;clean_data = sanitize(data)<br>
+        &nbsp;&nbsp;return clean_data<br>
+        end<br>
+        <em># Nota: Usar validación explícita en lugar de taint</em>
+    </div>
+
+    <h2>⚠️ Advertencias Importantes (Cambios de Comportamiento)</h2>
+
+    <h3>1. Variables Globales de Coincidencia</h3>
+    <div class="warning">
+        <strong>CAMBIO:</strong> Las variables $1, $2, etc. tienen comportamiento modificado en algunos contextos.
+    </div>
+    
+    <div class="code-block ruby2">
+        <strong>Ruby 2 (Problemático):</strong><br>
+        if url =~ /https?:\/\/(\w+):(\d+)/<br>
+        &nbsp;&nbsp;host = $1<br>
+        &nbsp;&nbsp;port = $2.to_i<br>
+        end
+    </div>
+    
+    <div class="code-block ruby3">
+        <strong>Ruby 3 (Recomendado):</strong><br>
+        if match = url.match(/https?:\/\/(?&lt;host&gt;\w+):(?&lt;port&gt;\d+)/)<br>
+        &nbsp;&nbsp;host = match[:host]<br>
+        &nbsp;&nbsp;port = match[:port].to_i<br>
+        end
+    </div>
+
+    <h3>2. Argumentos de Palabra Clave</h3>
+    <div class="warning">
+        <strong>CAMBIO:</strong> Separación estricta entre argumentos posicionales y de palabra clave.
+    </div>
+    
+    <div class="code-block ruby2">
+        <strong>Ruby 2 (Ambiguo):</strong><br>
+        def method_with_options(arg, options = {})<br>
+        &nbsp;&nbsp;# ...<br>
+        end<br>
+        <br>
+        method_with_options("value", key: "value")
+    </div>
+    
+    <div class="code-block ruby3">
+        <strong>Ruby 3 (Explícito):</strong><br>
+        def method_with_options(arg, **options)<br>
+        &nbsp;&nbsp;# ...<br>
+        end<br>
+        <br>
+        method_with_options("value", key: "value")
+    </div>
+
+    <h3>3. Sintaxis de Hash</h3>
+    <div class="warning">
+        <strong>OBSOLETO:</strong> La sintaxis de hash rockets está obsoleta para símbolos.
+    </div>
+    
+    <div class="code-block ruby2">
+        <strong>Ruby 2 (Obsoleto):</strong><br>
+        config = {<br>
+        &nbsp;&nbsp;:host => "localhost",<br>
+        &nbsp;&nbsp;:port => 3000<br>
+        }
+    </div>
+    
+    <div class="code-block ruby3">
+        <strong>Ruby 3 (Moderno):</strong><br>
+        config = {<br>
+        &nbsp;&nbsp;host: "localhost",<br>
+        &nbsp;&nbsp;port: 3000<br>
+        }
+    </div>
+
+    <h2>📊 Tabla de Compatibilidad Completa</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Característica</th>
+                <th>Ruby 2</th>
+                <th>Ruby 3</th>
+                <th>Severidad</th>
+                <th>Acción Requerida</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Fixnum/Bignum</td>
+                <td>Clases separadas</td>
+                <td>Solo Integer</td>
+                <td class="severity-error">ERROR</td>
+                <td>Reemplazar con Integer</td>
+            </tr>
+            <tr>
+                <td>TRUE/FALSE/NIL</td>
+                <td>Constantes disponibles</td>
+                <td>Removidas</td>
+                <td class="severity-error">ERROR</td>
+                <td>Usar true/false/nil</td>
+            </tr>
+            <tr>
+                <td>taint/untaint</td>
+                <td>Métodos disponibles</td>
+                <td>Removidos</td>
+                <td class="severity-error">ERROR</td>
+                <td>Remover llamadas</td>
+            </tr>
+            <tr>
+                <td>trust/untrust</td>
+                <td>Métodos disponibles</td>
+                <td>Removidos</td>
+                <td class="severity-error">ERROR</td>
+                <td>Remover llamadas</td>
+            </tr>
+            <tr>
+                <td>Variables $1, $2</td>
+                <td>Comportamiento global</td>
+                <td>Comportamiento local</td>
+                <td class="severity-warning">ADVERTENCIA</td>
+                <td>Usar capturas nombradas</td>
+            </tr>
+            <tr>
+                <td>Hash rockets</td>
+                <td>:key => value</td>
+                <td>key: value (preferido)</td>
+                <td class="severity-warning">ADVERTENCIA</td>
+                <td>Actualizar sintaxis</td>
+            </tr>
+            <tr>
+                <td>Argumentos palabra clave</td>
+                <td>Mezclados con posicionales</td>
+                <td>Separación estricta</td>
+                <td class="severity-info">INFO</td>
+                <td>Usar ** explícitamente</td>
+            </tr>
+            <tr>
+                <td>Rendimiento</td>
+                <td>Línea base</td>
+                <td>3x más rápido</td>
+                <td class="severity-info">INFO</td>
+                <td>Beneficio automático</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>🔧 Herramientas de Migración</h2>
+    
+    <h3>Ruby Migrator Tool</h3>
+    <p>Herramienta automatizada que analiza tu código y detecta problemas de compatibilidad:</p>
+    
+    <div class="code-block">
+        # Análisis sin modificar archivos<br>
+        ruby migrator.rb -p mi_proyecto -r<br>
+        <br>
+        # Análisis con respaldos automáticos<br>
+        ruby migrator.rb -p mi_proyecto<br>
+        <br>
+        # Reporte en formato JSON<br>
+        ruby migrator.rb -p mi_proyecto -r -f json
+    </div>
+
+    <h3>Características de la Herramienta</h3>
+    <ul>
+        <li>✅ Detección automática de 24+ patrones problemáticos</li>
+        <li>✅ Análisis AST (Abstract Syntax Tree) preciso</li>
+        <li>✅ Respaldos automáticos con timestamp</li>
+        <li>✅ Reportes detallados en texto y JSON</li>
+        <li>✅ Interfaz web interactiva</li>
+        <li>✅ Correcciones automáticas para casos simples</li>
+    </ul>
+
+    <h2>📈 Mejoras de Rendimiento en Ruby 3</h2>
+    
+    <div class="info">
+        <strong>Mejoras principales:</strong>
+        <ul>
+            <li><strong>3x más rápido</strong> en muchas operaciones</li>
+            <li><strong>JIT (Just-In-Time) compilation</strong> mejorado</li>
+            <li><strong>Fiber Scheduler</strong> para concurrencia</li>
+            <li><strong>Ractor</strong> para paralelismo real</li>
+            <li><strong>Recolector de basura</strong> optimizado</li>
+        </ul>
+    </div>
+
+    <h2>🛠️ Plan de Migración Paso a Paso</h2>
+    
+    <ol>
+        <li><strong>Análisis inicial:</strong> Ejecutar Ruby Migrator Tool en modo solo lectura</li>
+        <li><strong>Priorizar errores:</strong> Corregir todos los problemas marcados como ERROR</li>
+        <li><strong>Revisar advertencias:</strong> Evaluar y corregir problemas de ADVERTENCIA</li>
+        <li><strong>Actualizar dependencias:</strong> Verificar compatibilidad de gemas</li>
+        <li><strong>Pruebas exhaustivas:</strong> Ejecutar suite completa de tests</li>
+        <li><strong>Migración gradual:</strong> Migrar por módulos o componentes</li>
+        <li><strong>Monitoreo post-migración:</strong> Verificar rendimiento y errores</li>
+    </ol>
+
+    <h2>⚡ Ejemplos Completos de Migración</h2>
+    
+    <h3>Clase Legacy Completa</h3>
+    <div class="code-block ruby2">
+        <strong>Ruby 2 (Antes):</strong><br>
+        class LegacyProcessor<br>
+        &nbsp;&nbsp;def initialize(options = {})<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;@config = { :timeout => 30, :retries => 3 }.merge(options)<br>
+        &nbsp;&nbsp;end<br>
+        <br>
+        &nbsp;&nbsp;def process(data)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;data.taint<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;return FALSE unless validate(data)<br>
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;if data.is_a?(Fixnum) || data.is_a?(Bignum)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result = calculate(data)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;else<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return NIL<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;end<br>
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;result.untrust<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;return TRUE<br>
+        &nbsp;&nbsp;end<br>
+        end
+    </div>
+    
+    <div class="code-block ruby3">
+        <strong>Ruby 3 (Después):</strong><br>
+        class ModernProcessor<br>
+        &nbsp;&nbsp;def initialize(**options)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;@config = { timeout: 30, retries: 3 }.merge(options)<br>
+        &nbsp;&nbsp;end<br>
+        <br>
+        &nbsp;&nbsp;def process(data)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;return false unless validate(data)<br>
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;if data.is_a?(Integer)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result = calculate(data)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;else<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return nil<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;end<br>
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;return true<br>
+        &nbsp;&nbsp;end<br>
+        end
+    </div>
+
+    <h2>📋 Lista de Verificación Final</h2>
+    
+    <div class="info">
+        <strong>Antes de considerar completa la migración:</strong>
+        <ul>
+            <li>☐ Todos los errores ERROR corregidos</li>
+            <li>☐ Advertencias WARNING revisadas</li>
+            <li>☐ Tests pasando en Ruby 3</li>
+            <li>☐ Dependencias actualizadas</li>
+            <li>☐ Rendimiento verificado</li>
+            <li>☐ Documentación actualizada</li>
+            <li>☐ Equipo capacitado en cambios</li>
+        </ul>
+    </div>
+
+    <h2>📞 Soporte y Recursos</h2>
+    
+    <ul>
+        <li><strong>Ruby Migrator Tool:</strong> Herramienta de análisis automático</li>
+        <li><strong>Documentación oficial:</strong> ruby-doc.org</li>
+        <li><strong>Changelog Ruby 3:</strong> Cambios detallados por versión</li>
+        <li><strong>Comunidad Ruby:</strong> Foros y grupos de ayuda</li>
+    </ul>
+
+    <div class="info">
+        <strong>Documento generado automáticamente por Ruby Migrator Tool v1.0.0</strong><br>
+        Fecha: 31 de Julio de 2025<br>
+        <em>Esta guía proporciona información completa para migrar exitosamente de Ruby 2 a Ruby 3.</em>
+    </div>
+
+</body>
+</html>
