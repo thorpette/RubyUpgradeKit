@@ -1,20 +1,20 @@
-# Dockerfile final optimizado para Ruby Migrator
+# Dockerfile final optimizado para Ruby Migrator con auto-instalación webrick
 FROM ruby:3.3.8
 
 # Configurar directorio de trabajo
 WORKDIR /app
 
-# Instalar webrick y bundler globalmente
+# Instalar webrick y bundler globalmente ANTES de copiar código
 RUN gem install webrick -v '~> 1.8' && \
     gem install bundler
 
 # Copiar archivos de configuración
-COPY Gemfile* /app/
+COPY Gemfile* /app/ 2>/dev/null || true
 
-# Instalar dependencias
-RUN bundle install
+# Intentar instalar dependencias (si Gemfile existe)
+RUN if [ -f "Gemfile" ]; then bundle install; fi
 
-# Copiar aplicación
+# Copiar aplicación DESPUÉS de instalar dependencias
 COPY . /app/
 
 # Crear directorios
@@ -26,9 +26,10 @@ ENV HOST=0.0.0.0
 ENV RACK_ENV=production
 ENV GEM_HOME=/usr/local/bundle
 ENV GEM_PATH=/usr/local/bundle
+ENV PATH=/usr/local/bundle/bin:$PATH
 
 # Exponer puerto
 EXPOSE 5000
 
-# Comando de inicio
+# Comando de inicio - app.rb ya tiene auto-instalación de webrick
 CMD ["ruby", "app.rb"]
