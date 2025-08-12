@@ -5,6 +5,10 @@ echo ========================================
 echo   Ruby Migrator Docker Setup - Windows 11
 echo ========================================
 
+REM Corregir line endings automáticamente
+echo Corrigiendo line endings de archivos Ruby y shell...
+powershell -Command "& {Get-ChildItem -Include *.rb, *.sh | ForEach-Object { (Get-Content $_.FullName -Raw) -replace \"`r`n\", \"`n\" | Set-Content $_.FullName -NoNewline } }" 2>nul
+
 REM Verificar si Docker está ejecutándose
 docker version >nul 2>&1
 if %errorlevel% neq 0 (

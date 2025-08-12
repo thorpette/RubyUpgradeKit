@@ -12,11 +12,14 @@ RUN apt-get update && apt-get install -y \
 # Configurar directorio de trabajo
 WORKDIR /app
 
-# Copiar archivos de la aplicación
-COPY . /app/
+# Copiar Gemfile primero para aprovechar cache de Docker
+COPY Gemfile* /app/
 
-# Instalar gemas Ruby (si hay Gemfile)
-RUN if [ -f Gemfile ]; then bundle install; fi
+# Instalar gemas
+RUN bundle install
+
+# Copiar resto de archivos de la aplicación  
+COPY . /app/
 
 # Crear directorios necesarios
 RUN mkdir -p /app/backups /app/reports /app/uploads

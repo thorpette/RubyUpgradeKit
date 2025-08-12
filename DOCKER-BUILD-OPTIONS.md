@@ -1,8 +1,13 @@
 # 🐳 Opciones de Build Docker - Ruby Migrator
 
-## ✅ Problema Solucionado
+## ✅ Problemas Solucionados
 
-El error de construcción Docker con `wkhtmltopdf` en Alpine ha sido resuelto. Ahora tienes **3 opciones** de Dockerfile según tus necesidades:
+Los siguientes errores Docker han sido resueltos:
+1. **Error `wkhtmltopdf` en Alpine** - Eliminado de todas las imágenes
+2. **Error `webrick` missing** - Agregado Gemfile con webrick ~> 1.8
+3. **Warning line endings `\r`** - Script fix-line-endings.bat incluido
+
+Ahora tienes **3 opciones** de Dockerfile completamente funcionales:
 
 ## 📋 Opciones Disponibles
 
@@ -124,6 +129,9 @@ RACK_ENV=production         # Entorno Ruby
 ## ⚡ Comandos de Prueba Rápida
 
 ```batch
+# ANTES DE CONSTRUIR: Corregir line endings si vienes de Windows
+fix-line-endings.bat
+
 # Probar construcción y ejecución
 docker-test.bat
 
@@ -135,9 +143,19 @@ docker run --rm -p 7000:5000 test-migrator
 
 ## 🐞 Solución de Problemas
 
+### Error: "webrick is not part of default gems"
+✅ **SOLUCIONADO**: Gemfile incluye `gem 'webrick', '~> 1.8'`
+
+### Warning: "shebang line ending with \\r"
+✅ **SOLUCIONADO**: Ejecuta `fix-line-endings.bat` antes de construir
+
+### Error: "cannot load such file -- webrick"
+✅ **SOLUCIONADO**: Todos los Dockerfiles ejecutan `bundle install`
+
 ### Si Dockerfile.simple falla:
 - Verifica que Docker Desktop esté actualizado
 - Revisa conectividad a internet para pull de ruby:3.3.8
+- Ejecuta `fix-line-endings.bat` primero
 
 ### Si necesitas PDF generation:
 - Instala wkhtmltopdf en el host
