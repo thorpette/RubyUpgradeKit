@@ -9,9 +9,13 @@ require 'fileutils'
 
 class RubyMigratorWebApp
   def initialize
+    @port = ENV['PORT'] || 5000
+    @host = ENV['HOST'] || '0.0.0.0'
+    @instance_name = ENV['INSTANCE_NAME'] || 'Ruby Migrator'
+    
     @server = WEBrick::HTTPServer.new(
-      Port: 5000,
-      Host: '0.0.0.0',
+      Port: @port.to_i,
+      Host: @host,
       DocumentRoot: '.'
     )
     
@@ -22,7 +26,7 @@ class RubyMigratorWebApp
   end
 
   def start
-    puts "Ruby Migrator Web App starting on http://0.0.0.0:5000"
+    puts "#{@instance_name} Web App starting on http://#{@host}:#{@port}"
     puts "Access the web interface to analyze Ruby 2 to Ruby 3 compatibility"
     @server.start
   end

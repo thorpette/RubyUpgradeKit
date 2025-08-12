@@ -60,6 +60,7 @@ Una utilidad de línea de comandos en Ruby que analiza automáticamente código 
 
 ## Comandos Disponibles - Nueva Aplicación
 ```bash
+# CLI Local
 ruby migrator.rb --help                         # Mostrar ayuda completa
 ruby migrator.rb --version                      # Ver versión
 ruby migrator.rb -p /ruta/proyecto -r           # Solo análisis, sin cambios
@@ -67,6 +68,11 @@ ruby migrator.rb -p mi_proyecto                 # Análisis completo con respald
 ruby migrator.rb --no-backup                    # Análisis sin respaldo
 ruby migrator.rb -f json                        # Reporte en formato JSON
 ruby migrator.rb -v                             # Modo verbose con detalles
+
+# Docker Windows 11
+docker-run-windows.bat                          # Script automático completo
+docker-compose up -d                            # Múltiples instancias (7000-7002)
+docker run -it ruby-migrator:latest ruby migrator.rb --help  # CLI en Docker
 ```
 
 ## Ejemplos de Uso Confirmados
@@ -90,8 +96,14 @@ ruby migrator.rb -p mi_proyecto
 - 31/07/2025: Prueba exitosa de análisis (24 problemas detectados en 0.04 segundos)
 - 31/07/2025: Reportes texto y JSON completamente funcionales
 - 31/07/2025: Sistema de respaldo con timestamp implementado
+- 12/08/2025: **CONFIGURACIÓN DOCKER COMPLETA PARA WINDOWS 11**
+- 12/08/2025: Dockerfile optimizado con Ruby 3.3.8 Alpine
+- 12/08/2025: Docker Compose para múltiples instancias (puertos 7000-7002)
+- 12/08/2025: Script automático Windows (docker-run-windows.bat)
+- 12/08/2025: Documentación PDF completa de migración Ruby 2→3
+- 12/08/2025: Soporte para variables de entorno (PORT, HOST, INSTANCE_NAME)
 
-## Aplicación Lista para Producción
+## Aplicación Lista para Producción + Docker
 La nueva aplicación `migrator.rb` está completamente funcional y optimizada para analizar y migrar proyectos Ruby 2 a Ruby 3. Incluye:
 - Detección precisa de 24 tipos de problemas de compatibilidad
 - Interfaz CLI profesional con progreso en tiempo real
@@ -99,3 +111,6 @@ La nueva aplicación `migrator.rb` está completamente funcional y optimizada pa
 - Reportes detallados en formato texto legible y JSON estructurado
 - Rendimiento optimizado (análisis completo en menos de 0.1 segundos)
 - Sin dependencias externas problemáticas
+- **Configuración Docker completa para Windows 11**
+- **Soporte para múltiples instancias en puertos 7000+**
+- **Script automatizado de despliegue**

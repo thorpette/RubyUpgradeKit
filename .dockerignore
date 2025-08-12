@@ -1,0 +1,36 @@
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Documentación
+*.md
+*.pdf
+
+# Backups y reportes locales
+.ruby_migration_backup/
+backups/
+reports/
+
+# Archivos temporales
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+
+# Configuración IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ruby
+.bundle/
+vendor/bundle/
+
+# Archivos de Windows
+*.bat

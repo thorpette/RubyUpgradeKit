@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  ruby-migrator-1:
+    build: .
+    container_name: ruby-migrator-7000
+    ports:
+      - "7000:5000"
+    environment:
+      - PORT=5000
+      - HOST=0.0.0.0
+      - INSTANCE_NAME=Ruby Migrator 1
+    volumes:
+      - ./projects:/app/projects
+      - ./backups:/app/backups
+      - ./reports:/app/reports
+    restart: unless-stopped
+    command: ["ruby", "app.rb"]
+
+  ruby-migrator-2:
+    build: .
+    container_name: ruby-migrator-7001
+    ports:
+      - "7001:5000"
+    environment:
+      - PORT=5000
+      - HOST=0.0.0.0
+      - INSTANCE_NAME=Ruby Migrator 2
+    volumes:
+      - ./projects:/app/projects
+      - ./backups:/app/backups
+      - ./reports:/app/reports
+    restart: unless-stopped
+    command: ["ruby", "app.rb"]
+
+  ruby-migrator-3:
+    build: .
+    container_name: ruby-migrator-7002
+    ports:
+      - "7002:5000"
+    environment:
+      - PORT=5000
+      - HOST=0.0.0.0
+      - INSTANCE_NAME=Ruby Migrator 3
+    volumes:
+      - ./projects:/app/projects
+      - ./backups:/app/backups
+      - ./reports:/app/reports
+    restart: unless-stopped
+    command: ["ruby", "app.rb"]
+
+  ruby-migrator-cli:
+    build: .
+    container_name: ruby-migrator-cli
+    environment:
+      - INSTANCE_NAME=Ruby Migrator CLI
+    volumes:
+      - ./projects:/app/projects
+      - ./backups:/app/backups
+      - ./reports:/app/reports
+    command: ["tail", "-f", "/dev/null"]
+    restart: unless-stopped
+
+networks:
+  default:
+    name: ruby-migrator-network
