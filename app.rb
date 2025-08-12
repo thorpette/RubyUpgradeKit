@@ -1,7 +1,15 @@
 #!/usr/bin/env ruby
 # Web interface for Ruby 2 to Ruby 3 Migration Tool
 
-require 'webrick'
+# Auto-install webrick if not available
+begin
+  require 'webrick'
+rescue LoadError
+  puts "Installing webrick gem..."
+  system("gem install webrick")
+  require 'webrick'
+end
+
 require 'json'
 require 'cgi'
 require 'tempfile'

@@ -1,0 +1,34 @@
+# Dockerfile final optimizado para Ruby Migrator
+FROM ruby:3.3.8
+
+# Configurar directorio de trabajo
+WORKDIR /app
+
+# Instalar webrick y bundler globalmente
+RUN gem install webrick -v '~> 1.8' && \
+    gem install bundler
+
+# Copiar archivos de configuración
+COPY Gemfile* /app/
+
+# Instalar dependencias
+RUN bundle install
+
+# Copiar aplicación
+COPY . /app/
+
+# Crear directorios
+RUN mkdir -p /app/backups /app/reports /app/uploads
+
+# Configurar variables de entorno
+ENV PORT=5000
+ENV HOST=0.0.0.0
+ENV RACK_ENV=production
+ENV GEM_HOME=/usr/local/bundle
+ENV GEM_PATH=/usr/local/bundle
+
+# Exponer puerto
+EXPOSE 5000
+
+# Comando de inicio
+CMD ["ruby", "app.rb"]

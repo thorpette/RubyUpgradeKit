@@ -4,7 +4,7 @@ services:
   ruby-migrator-1:
     build: 
       context: .
-      dockerfile: Dockerfile.simple
+      dockerfile: Dockerfile.final
     container_name: ruby-migrator-7000
     ports:
       - "7000:5000"
@@ -22,7 +22,7 @@ services:
   ruby-migrator-2:
     build: 
       context: .
-      dockerfile: Dockerfile.simple
+      dockerfile: Dockerfile.final
     container_name: ruby-migrator-7001
     ports:
       - "7001:5000"

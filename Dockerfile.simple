@@ -4,6 +4,9 @@ FROM ruby:3.3.8
 # Configurar directorio de trabajo
 WORKDIR /app
 
+# Instalar webrick directamente
+RUN gem install webrick -v '~> 1.8'
+
 # Copiar Gemfile primero para aprovechar cache de Docker
 COPY Gemfile* /app/
 
