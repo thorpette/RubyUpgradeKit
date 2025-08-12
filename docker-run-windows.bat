@@ -21,14 +21,29 @@ if not exist "reports" mkdir reports
 echo Creando directorios para proyectos, respaldos y reportes...
 echo.
 
-REM Construir imagen Docker
+REM Construir imagen Docker (probando versión simple primero)
 echo Construyendo imagen Docker Ruby Migrator...
-docker build -t ruby-migrator:latest .
+docker build -f Dockerfile.simple -t ruby-migrator:latest .
 
 if %errorlevel% neq 0 (
-    echo ERROR: Falló la construcción de la imagen Docker
-    pause
-    exit /b 1
+    echo Error con imagen simple, probando versión completa...
+    docker build -t ruby-migrator:latest .
+    
+    if %errorlevel% neq 0 (
+        echo Error con imagen completa, probando Alpine...
+        docker build -f Dockerfile.alpine -t ruby-migrator:latest .
+        
+        if %errorlevel% neq 0 (
+            echo ERROR: Todas las construcciones fallaron
+            echo Verifica que Docker esté funcionando correctamente
+            pause
+            exit /b 1
+        ) else (
+            echo Imagen Alpine construida exitosamente
+        )
+    ) else (
+        echo Imagen completa construida exitosamente
+    )
 )
 
 echo.

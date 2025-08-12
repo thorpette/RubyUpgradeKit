@@ -2,7 +2,9 @@ version: '3.8'
 
 services:
   ruby-migrator-1:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile.simple
     container_name: ruby-migrator-7000
     ports:
       - "7000:5000"
@@ -18,7 +20,9 @@ services:
     command: ["ruby", "app.rb"]
 
   ruby-migrator-2:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile.simple
     container_name: ruby-migrator-7001
     ports:
       - "7001:5000"
@@ -34,7 +38,9 @@ services:
     command: ["ruby", "app.rb"]
 
   ruby-migrator-3:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile.simple
     container_name: ruby-migrator-7002
     ports:
       - "7002:5000"
@@ -50,7 +56,9 @@ services:
     command: ["ruby", "app.rb"]
 
   ruby-migrator-cli:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile.simple
     container_name: ruby-migrator-cli
     environment:
       - INSTANCE_NAME=Ruby Migrator CLI

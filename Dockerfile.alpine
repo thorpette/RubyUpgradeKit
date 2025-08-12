@@ -1,13 +1,12 @@
-# Dockerfile para Ruby Migrator Tool
-FROM ruby:3.3.8-slim
+# Dockerfile alternativo con Alpine Linux (más ligero)
+FROM ruby:3.3.8-alpine
 
-# Instalar dependencias del sistema básicas
-RUN apt-get update && apt-get install -y \
-    build-essential \
+# Instalar dependencias básicas de Alpine
+RUN apk add --no-cache \
+    build-base \
     git \
     bash \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
+    curl
 
 # Configurar directorio de trabajo
 WORKDIR /app
