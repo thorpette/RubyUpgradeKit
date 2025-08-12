@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Tipado Ruby 3 - Guía Completa</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 210mm;
+            margin: 0 auto;
+            background: white;
+        }
+        .cover {
+            text-align: center;
+            padding: 80px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin: -2cm -2cm 2cm -2cm;
+            padding: 4cm 2cm;
+        }
+        .cover h1 {
+            font-size: 2.8em;
+            margin-bottom: 0.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .cover h2 {
+            font-size: 1.3em;
+            margin-bottom: 1.5em;
+            opacity: 0.9;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        h1 {
+            font-size: 2.2em;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 0.3em;
+        }
+        h2 {
+            font-size: 1.8em;
+            color: #34495e;
+        }
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1.5em;
+            border-radius: 8px;
+            font-family: 'Courier New', Consolas, monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            margin: 1em 0;
+            border-left: 4px solid #4299e1;
+        }
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1em;
+            margin: 1.5em 0;
+        }
+        .without-types {
+            background: #fed7d7;
+            border: 2px solid #fc8181;
+            border-radius: 8px;
+            padding: 1em;
+        }
+        .with-types {
+            background: #c6f6d5;
+            border: 2px solid #68d391;
+            border-radius: 8px;
+            padding: 1em;
+        }
+        .feature-box {
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 1.5em;
+            margin: 1.5em 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 1em;
+            border-radius: 8px;
+            margin: 1em 0;
+            border-left: 4px solid #f39c12;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 1em;
+            border-radius: 8px;
+            margin: 1em 0;
+            border-left: 4px solid #27ae60;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5em 0;
+        }
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 0.75em;
+            text-align: left;
+        }
+        th {
+            background: #f8f9fa;
+            font-weight: bold;
+        }
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1em;
+            margin: 1.5em 0;
+        }
+        .tool-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5em;
+        }
+        .tool-card h4 {
+            margin-top: 0;
+            color: #495057;
+        }
+        .syntax-example {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 1em;
+            margin: 1em 0;
+            border-radius: 0 8px 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="cover">
+        <h1>🔍 Sistema de Tipado Ruby 3</h1>
+        <h2>RBS, TypeProf y Steep - Guía Completa</h2>
+        <p style="font-size: 1.1em; margin: 1.5em 0;">Tipado Estático Opcional para Ruby</p>
+        <div style="margin-top: 2em; font-size: 1em; opacity: 0.8;">
+            Ruby 3.3.8 | Agosto 2025
+        </div>
+    </div>
+
+    <h1>1. Introducción al Sistema de Tipado Ruby 3</h1>
+
+    <div class="feature-box">
+        <h3>Filosofía del Tipado en Ruby 3</h3>
+        <p>Ruby 3 introduce un sistema de tipado <strong>gradual y opcional</strong> que permite agregar información de tipos sin cambiar la naturaleza dinámica del lenguaje. El sistema está compuesto por tres herramientas principales:</p>
+        <ul>
+            <li><strong>RBS:</strong> Lenguaje de definición de tipos</li>
+            <li><strong>TypeProf:</strong> Inferencia automática de tipos</li>
+            <li><strong>Steep:</strong> Verificador de tipos</li>
+        </ul>
+    </div>
+
+    <h2>1.1 Ventajas del Sistema de Tipado</h2>
+
+    <div class="comparison">
+        <div class="without-types">
+            <h4>Sin Tipado</h4>
+            <div class="code-block">
+# user.rb
+class User
+  def initialize(name, age)
+    @name = name
+    @age = age
+  end
+  
+  def adult?
+    @age >= 18
+  end
+  
+  def greet(message)
+    "#{message}, #{@name}!"
+  end
+end
+
+# Posibles errores en runtime
+user = User.new("John", "30")  # age como string
+user.adult?  # Error: no se puede comparar
+user.greet(123)  # Funciona pero no es semánticamente correcto
+            </div>
+        </div>
+        <div class="with-types">
+            <h4>Con Tipado RBS</h4>
+            <div class="code-block">
+# user.rbs
+class User
+  @name: String
+  @age: Integer
+  
+  def initialize: (String, Integer) -> void
+  def adult?: -> bool
+  def greet: (String) -> String
+end
+
+# user.rb (sin cambios)
+class User
+  def initialize(name, age)
+    @name = name
+    @age = age
+  end
+  
+  def adult?
+    @age >= 18
+  end
+  
+  def greet(message)
+    "#{message}, #{@name}!"
+  end
+end
+
+# Verificación con Steep detecta errores antes de runtime
+            </div>
+        </div>
+    </div>
+
+    <h1>2. RBS - Ruby Signature</h1>
+
+    <div class="feature-box">
+        <h3>¿Qué es RBS?</h3>
+        <p>RBS es un lenguaje para describir la estructura de programas Ruby. Define tipos de métodos, variables de instancia, constantes y más, sin modificar el código Ruby original.</p>
+    </div>
+
+    <h2>2.1 Sintaxis Básica de RBS</h2>
+
+    <div class="syntax-example">
+        <h4>Tipos Primitivos</h4>
+        <div class="code-block">
+# tipos_primitivos.rbs
+
+# Tipos básicos
+String
+Integer  
+Float
+bool     # true o false
+nil
+void     # sin valor de retorno
+
+# Tipos literales
+"literal_string"
+42
+true
+false
+
+# Tipos de colección
+Array[String]              # Array de strings
+Hash[String, Integer]      # Hash con keys String y values Integer
+Array[Integer | String]    # Array que puede contener Integer o String
+        </div>
+    </div>
+
+    <div class="syntax-example">
+        <h4>Definición de Clases</h4>
+        <div class="code-block">
+# calculator.rbs
+class Calculator
+  # Variables de instancia
+  @memory: Float
+  @history: Array[String]
+  
+  # Métodos de instancia
+  def initialize: () -> void
+  def add: (Float, Float) -> Float
+  def subtract: (Float, Float) -> Float
+  def multiply: (Float, Float) -> Float
+  def divide: (Float, Float) -> Float
+  def clear_memory: () -> void
+  def recall: () -> Float
+  def store: (Float) -> void
+  
+  # Métodos de clase
+  def self.scientific_mode: () -> Calculator
+  
+  # Constantes
+  PI: Float
+  E: Float
+end
+        </div>
+    </div>
+
+    <h2>2.2 Tipos Avanzados</h2>
+
+    <div class="code-block">
+# tipos_avanzados.rbs
+
+# Union Types (tipos unión)
+def process_id: (Integer | String) -> String
+
+# Optional Types (tipos opcionales)
+def find_user: (Integer) -> User?
+
+# Generics (tipos genéricos)
+class Container[T]
+  @value: T
+  def initialize: (T) -> void
+  def get: () -> T
+  def set: (T) -> void
+end
+
+# Proc types
+def map_values: [T, U] (Array[T], ^(T) -> U) -> Array[U]
+
+# Record types (estructuras)
+type UserRecord = {
+  name: String,
+  age: Integer,
+  email: String?
+}
+
+# Alias de tipos
+type ID = Integer | String
+type UserCollection = Array[User] | Hash[ID, User]
+
+# Interface types
+interface _Serializable
+  def serialize: () -> String
+  def deserialize: (String) -> self
+end
+    </div>
+
+    <h2>2.3 Módulos y Mixins</h2>
+
+    <div class="code-block">
+# authentication.rbs
+
+module Authentication
+  # Métodos de módulo
+  def self.hash_password: (String) -> String
+  def self.verify_password: (String, String) -> bool
+  
+  # Métodos que se incluyen cuando se hace include
+  def authenticate: (String, String) -> bool
+  def logout: () -> void
+  def current_user: () -> User?
+end
+
+# Clase que incluye el módulo
+class UserController
+  include Authentication
+  
+  @current_user: User?
+  
+  def login: (String, String) -> bool
+  def dashboard: () -> String
+end
+    </div>
+
+    <h1>3. TypeProf - Inferencia de Tipos</h1>
+
+    <div class="feature-box">
+        <h3>TypeProf: El Analizador Inteligente</h3>
+        <p>TypeProf analiza código Ruby existente y genera automáticamente definiciones RBS, infiriendo tipos basándose en el uso real del código.</p>
+    </div>
+
+    <h2>3.1 Instalación y Uso de TypeProf</h2>
+
+    <div class="code-block">
+# Instalación
+gem install typeprof
+
+# Uso básico - analizar archivo individual
+typeprof user.rb
+
+# Analizar múltiples archivos
+typeprof app/models/*.rb
+
+# Generar archivo RBS
+typeprof user.rb > sig/user.rbs
+
+# Análisis con configuración
+typeprof --config=typeprof.yaml
+    </div>
+
+    <h2>3.2 Ejemplo de Inferencia Automática</h2>
+
+    <div class="comparison">
+        <div class="without-types">
+            <h4>Código Ruby Original</h4>
+            <div class="code-block">
+# shopping_cart.rb
+class ShoppingCart
+  def initialize
+    @items = []
+    @total = 0.0
+  end
+  
+  def add_item(name, price, quantity = 1)
+    item = {
+      name: name,
+      price: price,
+      quantity: quantity,
+      subtotal: price * quantity
+    }
+    @items << item
+    @total += item[:subtotal]
+  end
+  
+  def remove_item(index)
+    return unless @items[index]
+    removed = @items.delete_at(index)
+    @total -= removed[:subtotal]
+    removed
+  end
+  
+  def calculate_discount(percentage)
+    discount = @total * (percentage / 100.0)
+    @total - discount
+  end
+  
+  def checkout
+    {
+      items: @items,
+      total: @total,
+      timestamp: Time.now
+    }
+  end
+end
+
+# Uso del código para ayudar a la inferencia
+cart = ShoppingCart.new
+cart.add_item("Laptop", 999.99, 1)
+cart.add_item("Mouse", 29.99, 2)
+cart.remove_item(0)
+final_total = cart.calculate_discount(10.0)
+receipt = cart.checkout
+            </div>
+        </div>
+        <div class="with-types">
+            <h4>RBS Generado por TypeProf</h4>
+            <div class="code-block">
+# shopping_cart.rbs (generado automáticamente)
+class ShoppingCart
+  @items: Array[Hash[Symbol, (String | Float | Integer)]]
+  @total: Float
+
+  def initialize: () -> void
+
+  def add_item: (String, Float, ?Integer) -> Float
+
+  def remove_item: (Integer) -> (Hash[Symbol, (String | Float | Integer)] | nil)
+
+  def calculate_discount: (Float) -> Float
+
+  def checkout: () -> Hash[Symbol, (Array[Hash[Symbol, (String | Float | Integer)]] | Float | Time)]
+end
+            </div>
+        </div>
+    </div>
+
+    <h2>3.3 Configuración de TypeProf</h2>
+
+    <div class="code-block">
+# typeprof.yaml
+target_files:
+  - "app/models/**/*.rb"
+  - "lib/**/*.rb"
+
+output_dir: "sig"
+
+options:
+  # Incluir métodos privados en el análisis
+  show_untyped: false
+  
+  # Nivel de detalle en la inferencia
+  verbose: 1
+  
+  # Ignorar ciertos patrones
+  ignore:
+    - "test/**/*.rb"
+    - "spec/**/*.rb"
+
+# Configuraciones específicas por archivo
+per_file_options:
+  "app/models/user.rb":
+    show_untyped: true
+    
+libraries:
+  - name: "rails"
+    version: "7.0"
+    </div>
+
+    <h1>4. Steep - Verificación de Tipos</h1>
+
+    <div class="feature-box">
+        <h3>Steep: El Verificador de Tipos</h3>
+        <p>Steep utiliza las definiciones RBS para verificar la corrección de tipos en tiempo de desarrollo, detectando errores antes de que lleguen a producción.</p>
+    </div>
+
+    <h2>4.1 Instalación y Configuración</h2>
+
+    <div class="code-block">
+# Instalación
+gem install steep
+
+# Inicializar proyecto con Steep
+steep init
+
+# Esto crea Steepfile con configuración básica
+target :main do
+  signature "sig"
+  check "app"
+  library "pathname"
+end
+    </div>
+
+    <h2>4.2 Verificación de Tipos</h2>
+
+    <div class="code-block">
+# Verificar todos los archivos
+steep check
+
+# Verificar archivo específico
+steep check app/models/user.rb
+
+# Modo watch (verificación continua)
+steep watch
+
+# Verificar con más detalle
+steep check --verbose
+
+# Generar reporte en formato JSON
+steep check --format=json > type_errors.json
+    </div>
+
+    <h2>4.3 Ejemplos de Detección de Errores</h2>
+
+    <div class="code-block">
+# user.rb
+class User
+  def initialize(name, age)
+    @name = name
+    @age = age
+  end
+  
+  def birthday!
+    @age += 1
+  end
+  
+  def adult?
+    @age >= 18
+  end
+end
+
+# user.rbs
+class User
+  @name: String
+  @age: Integer
+  
+  def initialize: (String, Integer) -> void
+  def birthday!: () -> void
+  def adult?: () -> bool
+end
+
+# test_user.rb - Errores que Steep detecta
+user = User.new("John", "30")        # Error: Expected Integer, got String
+user.birthday!
+result = user.adult?
+puts result + 1                      # Error: No method + for bool
+
+# Steep output:
+# test_user.rb:1:20: [error] Type mismatch:
+#   expected: Integer
+#   actual: String
+# test_user.rb:4:5: [error] Type mismatch:
+#   expected: No method `+` for `bool`
+    </div>
+
+    <h1>5. Integración Práctica</h1>
+
+    <h2>5.1 Flujo de Trabajo Recomendado</h2>
+
+    <div class="feature-box">
+        <h3>Proceso de Adopción Gradual</h3>
+        <ol>
+            <li><strong>Análisis inicial:</strong> Usar TypeProf para generar RBS básico</li>
+            <li><strong>Refinamiento:</strong> Editar manualmente los archivos RBS</li>
+            <li><strong>Verificación:</strong> Usar Steep para detectar inconsistencias</li>
+            <li><strong>Iteración:</strong> Corregir código o tipos según sea necesario</li>
+        </ol>
+    </div>
+
+    <div class="code-block">
+# Makefile para automatizar el proceso
+.PHONY: typecheck generate-types check-types
+
+# Generar tipos automáticamente
+generate-types:
+	typeprof app/models/*.rb > sig/models.rbs
+	typeprof app/controllers/*.rb > sig/controllers.rbs
+	typeprof lib/*.rb > sig/lib.rbs
+
+# Verificar tipos
+check-types:
+	steep check
+
+# Verificar con reporte detallado
+typecheck: generate-types
+	steep check --verbose
+
+# Verificación continua durante desarrollo
+watch:
+	steep watch
+
+# Limpiar archivos de tipos generados
+clean-types:
+	rm -f sig/*.rbs
+    </div>
+
+    <h2>5.2 Integración con CI/CD</h2>
+
+    <div class="code-block">
+# .github/workflows/type_check.yml
+name: Type Check
+
+on: [push, pull_request]
+
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.3.8
+        bundler-cache: true
+    
+    - name: Install type checking tools
+      run: |
+        gem install steep typeprof rbs
+    
+    - name: Generate type signatures
+      run: |
+        mkdir -p sig
+        typeprof app/models/*.rb > sig/models.rbs
+        typeprof app/controllers/*.rb > sig/controllers.rbs
+    
+    - name: Type check
+      run: steep check
+    
+    - name: Upload type errors
+      if: failure()
+      uses: actions/upload-artifact@v3
+      with:
+        name: type-errors
+        path: type_errors.json
+    </div>
+
+    <h2>5.3 Configuración Avanzada</h2>
+
+    <div class="code-block">
+# Steepfile avanzado
+target :main do
+  signature "sig"
+  
+  # Directorios a verificar
+  check "app"
+  check "lib"
+  
+  # Bibliotecas RBS incluidas
+  library "pathname"
+  library "logger"
+  library "json"
+  library "time"
+  
+  # Configuraciones específicas
+  configure_code_diagnostics do |hash|
+    # Ignorar ciertos tipos de errores
+    hash[Steep::Diagnostic::Ruby::MethodDefinitionMissing] = :information
+    hash[Steep::Diagnostic::Ruby::UnresolvedOverloading] = :warning
+  end
+end
+
+# Target separado para tests
+target :test do
+  signature "sig"
+  check "test"
+  check "spec"
+  
+  library "minitest"
+  library "rspec"
+end
+    </div>
+
+    <h1>6. Casos de Uso Avanzados</h1>
+
+    <h2>6.1 APIs y Servicios Web</h2>
+
+    <div class="code-block">
+# api_service.rbs
+class ApiService
+  @base_url: String
+  @headers: Hash[String, String]
+  
+  def initialize: (String, ?Hash[String, String]) -> void
+  
+  # Métodos HTTP tipados
+  def get: [T] (String, **untyped) -> ApiResponse[T]
+  def post: [T] (String, Hash[String, untyped], **untyped) -> ApiResponse[T]
+  def put: [T] (String, Hash[String, untyped], **untyped) -> ApiResponse[T]
+  def delete: (String, **untyped) -> ApiResponse[nil]
+  
+  private
+  def make_request: (String, String, ?Hash[String, untyped]) -> Net::HTTPResponse
+  def parse_response: [T] (Net::HTTPResponse) -> ApiResponse[T]
+end
+
+# Respuesta tipada
+class ApiResponse[T]
+  @status: Integer
+  @data: T
+  @errors: Array[String]
+  
+  def initialize: (Integer, T, Array[String]) -> void
+  def success?: () -> bool
+  def error?: () -> bool
+  def data: () -> T
+  def errors: () -> Array[String]
+end
+
+# Modelos de datos
+type UserData = {
+  id: Integer,
+  name: String,
+  email: String,
+  created_at: String
+}
+
+type ProductData = {
+  id: Integer,
+  name: String,
+  price: Float,
+  category: String,
+  in_stock: bool
+}
+    </div>
+
+    <h2>6.2 Metaprogramación Tipada</h2>
+
+    <div class="code-block">
+# dynamic_model.rbs
+class DynamicModel
+  @attributes: Hash[Symbol, untyped]
+  
+  def initialize: (Hash[Symbol, untyped]) -> void
+  
+  # Métodos dinámicos
+  def method_missing: (Symbol, *untyped) -> untyped
+  def respond_to_missing?: (Symbol, bool) -> bool
+  
+  # Define_method dinámico
+  def self.attr_typed: [T] (Symbol, Class) -> void
+  
+  # Validaciones tipadas
+  def validate: () -> Array[String]
+  def valid?: () -> bool
+  
+  # Serialización
+  def to_h: () -> Hash[Symbol, untyped]
+  def to_json: () -> String
+  
+  # Factory methods tipados
+  def self.from_hash: (Hash[Symbol, untyped]) -> instance
+  def self.from_json: (String) -> instance
+end
+
+# Uso específico con tipos
+class User < DynamicModel
+  # Definir atributos con tipos
+  attr_typed :name, String
+  attr_typed :age, Integer
+  attr_typed :email, String
+  
+  # Métodos específicos tipados
+  def adult?: () -> bool
+  def full_profile: () -> Hash[Symbol, (String | Integer | bool)]
+end
+    </div>
+
+    <h1>7. Mejores Prácticas</h1>
+
+    <div class="success">
+        <h3>Recomendaciones para Adopción Exitosa</h3>
+        <ul>
+            <li><strong>Comienza gradualmente:</strong> Empieza por módulos críticos</li>
+            <li><strong>Usa TypeProf como base:</strong> Genera tipos automáticamente primero</li>
+            <li><strong>Refina manualmente:</strong> Los tipos generados son un punto de partida</li>
+            <li><strong>Integra en CI/CD:</strong> Haz la verificación parte del proceso</li>
+            <li><strong>Documenta decisiones:</strong> Explica por qué ciertos tipos se eligieron</li>
+            <li><strong>Mantén simplicidad:</strong> No sobre-especifiques tipos complejos al inicio</li>
+        </ul>
+    </div>
+
+    <div class="warning">
+        <h3>Limitaciones y Consideraciones</h3>
+        <ul>
+            <li><strong>Metaprogramación:</strong> Difícil de tipar dinámicamente</li>
+            <li><strong>Overhead:</strong> Requiere mantenimiento adicional</li>
+            <li><strong>Curva de aprendizaje:</strong> Sintaxis RBS requiere tiempo</li>
+            <li><strong>Herramientas en evolución:</strong> Ecosistema aún madurando</li>
+        </ul>
+    </div>
+
+    <h2>7.1 Ejemplo Completo de Proyecto Tipado</h2>
+
+    <div class="code-block">
+# Estructura de proyecto con tipos
+my_app/
+├── app/
+│   ├── models/
+│   │   ├── user.rb
+│   │   └── product.rb
+│   └── services/
+│       └── payment_service.rb
+├── sig/
+│   ├── models/
+│   │   ├── user.rbs
+│   │   └── product.rbs
+│   └── services/
+│       └── payment_service.rbs
+├── Steepfile
+├── typeprof.yaml
+└── Gemfile
+
+# Gemfile
+gem 'rbs'
+gem 'typeprof'
+gem 'steep'
+
+# Comandos para mantener tipos actualizados
+rake typecheck:generate  # Genera RBS con TypeProf
+rake typecheck:verify    # Verifica con Steep
+rake typecheck:clean     # Limpia archivos temporales
+    </div>
+
+    <div style="text-align: center; padding: 3em 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin: 2em -2cm; page-break-inside: avoid;">
+        <h2 style="margin: 0; color: white;">Sistema de Tipado Ruby 3</h2>
+        <p style="font-size: 1.1em; margin: 1em 0; opacity: 0.9;">RBS + TypeProf + Steep = Código más robusto y mantenible</p>
+        <p style="opacity: 0.8;">Ruby Migrator Project | Agosto 2025</p>
+    </div>
+</body>
+</html>

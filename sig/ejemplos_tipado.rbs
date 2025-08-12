@@ -1,0 +1,154 @@
+# sig/ejemplos_tipado.rbs - Definiciones de tipos para los ejemplos
+
+# Calculator class
+class Calculator
+  @memory: Float
+  @history: Array[String]
+  
+  def initialize: () -> void
+  def add: (Numeric, Numeric) -> Numeric
+  def subtract: (Numeric, Numeric) -> Numeric  
+  def multiply: (Numeric, Numeric) -> Numeric
+  def divide: (Numeric, Numeric) -> Float
+  def store: (Numeric) -> void
+  def recall: () -> Float
+  def clear_history: () -> void
+  def show_history: () -> Array[String]
+end
+
+# WeatherService class
+class WeatherService
+  BASE_URL: String
+  
+  @api_key: String
+  @last_response: Hash[Symbol, untyped]?
+  
+  def initialize: (String) -> void
+  def get_current_weather: (String) -> WeatherData
+  def get_forecast: (String, ?Integer) -> Array[ForecastData]
+  def validate_city: (String?) -> bool
+end
+
+# User class
+class User
+  @id: Integer
+  @name: String
+  @email: String
+  @created_at: Time
+  @preferences: Hash[Symbol, untyped]
+  
+  attr_reader id: Integer
+  attr_reader name: String
+  attr_reader email: String
+  attr_reader created_at: Time
+  
+  def initialize: (Integer, String, String) -> void
+  def update_name: (String?) -> bool
+  def update_email: (String?) -> bool
+  def set_preference: (String | Symbol, untyped) -> void
+  def get_preference: (String | Symbol) -> untyped
+  def to_h: () -> UserHash
+  def adult?: () -> bool
+  
+  private
+  def valid_email?: (String?) -> bool
+end
+
+# Product class
+class Product
+  CATEGORIES: Array[String]
+  
+  @id: Integer
+  @name: String
+  @price: Float
+  @category: String
+  @in_stock: bool
+  @tags: Array[String]
+  
+  attr_reader id: Integer
+  attr_reader name: String
+  attr_reader price: Float
+  attr_reader category: String
+  attr_reader in_stock: bool
+  
+  def initialize: (Integer, String, Numeric, String) -> void
+  def update_price: (Numeric) -> bool
+  def add_tag: (String?) -> bool
+  def remove_tag: (String) -> String?
+  def mark_out_of_stock: () -> void
+  def mark_in_stock: () -> void
+  def discounted_price: (Numeric) -> Float
+  def category_valid?: () -> bool
+  def to_h: () -> ProductHash
+end
+
+# ShoppingCart class
+class ShoppingCart
+  @user_id: Integer
+  @items: Array[CartItem]
+  @created_at: Time
+  
+  def initialize: (Integer) -> void
+  def add_item: (Product, ?Integer) -> bool
+  def remove_item: (Integer) -> void
+  def update_quantity: (Integer, Integer) -> bool
+  def total_price: () -> Float
+  def total_items: () -> Integer
+  def apply_discount: (Numeric) -> Float
+  def clear: () -> void
+  def to_h: () -> CartHash
+end
+
+# Type definitions
+type WeatherData = {
+  city: String,
+  temperature: Integer,
+  humidity: Integer,
+  condition: String,
+  timestamp: Time
+}
+
+type ForecastData = {
+  date: Date,
+  high: Integer,
+  low: Integer,
+  condition: String
+}
+
+type UserHash = {
+  id: Integer,
+  name: String,
+  email: String,
+  created_at: Time,
+  preferences: Hash[Symbol, untyped]
+}
+
+type ProductHash = {
+  id: Integer,
+  name: String,
+  price: Float,
+  category: String,
+  in_stock: bool,
+  tags: Array[String]
+}
+
+type CartItem = {
+  product: Product,
+  quantity: Integer,
+  added_at: Time
+}
+
+type CartItemHash = {
+  product: ProductHash,
+  quantity: Integer,
+  subtotal: Float,
+  added_at: Time
+}
+
+type CartHash = {
+  user_id: Integer,
+  items: Array[CartItemHash],
+  total_price: Float,
+  total_items: Integer,
+  created_at: Time
+}
