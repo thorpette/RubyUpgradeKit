@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
 # ejemplos_tipado_ruby3.rb - Ejemplos prácticos del sistema de tipado Ruby 3
 
+require 'date'
+require 'time'
+
 # Ejemplo 1: Clase básica con RBS
 class Calculator
   def initialize
@@ -74,7 +77,7 @@ class WeatherService
     forecast = []
     days.times do |i|
       forecast << {
-        date: Date.today + i,
+        date: (Date.today + i),
         high: rand(20..35),
         low: rand(5..20),
         condition: ["sunny", "cloudy", "rainy", "stormy"].sample
